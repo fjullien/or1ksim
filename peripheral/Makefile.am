@@ -39,6 +39,8 @@ libperipheral_la_SOURCES = generic.c        \
                            atadevice.c      \
                            atadevice-cmdi.c \
                            memory.c         \
+                           openocd_wb_bridge.c \
+                           openocd_wb_bridge.h \
                            16450.h          \
                            atacmd.h         \
                            generic.h        \

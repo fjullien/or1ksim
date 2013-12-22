@@ -65,6 +65,7 @@
 #include "jtag.h"
 #include "misc.h"
 #include "argtable2.h"
+#include "openocd_wb_bridge.h"
 
 
 /*! A structure used to represent possible parameters in a section. */
@@ -1619,6 +1620,7 @@ reg_config_secs ()
   reg_kbd_sec ();
   reg_ata_sec ();
   reg_cuc_sec ();
+  reg_wb_bridge_sec ();
 }
 
 /* Utility for execution of set sim command.  */
