@@ -193,13 +193,27 @@ recv_cmd (int sock, void *buffer, int size)
   char _buffer[BUFFER_SIZE];
   int i = 0;
   uint8_t *ptr = (uint8_t *) buffer;
+  char *inptr = _buffer;
   char byte[3] = { 0, 0, 0 };
+  int eoc = 0;
 
-  int bytes = recv (sock, _buffer, BUFFER_SIZE - 1, 0);
-  if (bytes < 0)
+  while (eoc == 0)
     {
-      printf ("Failed to receive bytes from server");
-      return -1;
+      int bytes = recv (sock, inptr, BUFFER_SIZE - 1, 0);
+      if (bytes < 0)
+	{
+	  printf ("Failed to receive bytes from server");
+	  return -1;
+	}
+
+      /* Sometimes the EOC is available on the next frame. If we don't
+       * receive the EOC in this frame, received another one. */
+      for (i = 0; i < bytes; i++)
+	{
+	  if (inptr[i] == 0x1A)
+	    eoc = 1;
+	}
+      inptr += bytes;
     }
 
   if (!buffer)
