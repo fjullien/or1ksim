@@ -202,6 +202,9 @@ recv_cmd (int sock, void *buffer, int size)
       return -1;
     }
 
+  if (!buffer)
+    return 0;
+
   for (i = 0; i < size; i++)
     {
       strncpy (byte, &_buffer[VAL_OFFSET + (i * 2)], 2);
@@ -242,6 +245,13 @@ wb_write (int sock, uint32_t address, void *buffer, int size)
   if (ret == -1)
     {
       printf ("Error while sending the command\n");
+      return -1;
+    }
+
+  ret = recv_cmd (sock, NULL, 0);
+  if (ret)
+    {
+      printf ("Error while receiving the command\n");
       return -1;
     }
 
